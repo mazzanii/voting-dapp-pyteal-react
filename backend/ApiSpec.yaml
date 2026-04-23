@@ -1,0 +1,99 @@
+openapi: 3.0.3
+info:
+  title: Voting DApp Backend API
+  description: Express/TypeScript backend enhancement for gconnect/voting-dapp-pyteal-react
+  version: 1.0.0
+servers:
+  - url: http://localhost:4000
+    description: Local development
+paths:
+  /api/voting/results:
+    get:
+      summary: Get current election results from blockchain global state
+      responses:
+        '200':
+          description: Election results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ElectionStatus'
+  /api/voting/results/{appId}:
+    get:
+      summary: Get results for a specific application ID
+      parameters:
+        - name: appId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Election results
+  /api/voting/candidates:
+    get:
+      summary: List candidates from the smart contract
+      responses:
+        '200':
+          description: Candidate list
+  /api/voting/verify/{txId}:
+    get:
+      summary: Verify a vote transaction on the blockchain
+      parameters:
+        - name: txId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Transaction verified
+        '404':
+          description: Transaction not found
+  /api/weather/{city}:
+    get:
+      summary: Get weather data for a city
+      parameters:
+        - name: city
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Weather data
+        '404':
+          description: City not found
+  /api/weather:
+    get:
+      summary: List supported cities
+      responses:
+        '200':
+          description: City list
+  /api/health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: Service status
+components:
+  schemas:
+    ElectionStatus:
+      type: object
+      properties:
+        appId:
+          type: integer
+        candidates:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              votes:
+                type: integer
+        totalVotes:
+          type: integer
+        registrationOpen:
+          type: boolean
+        votingOpen:
+          type: boolean
