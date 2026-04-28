@@ -1,9 +1,11 @@
+import BackendStatus from './components/BackendStatus';
 import Home from './components/home';
 
 function App() {
   return (
     <div>
-     <Home/>
+      <Home/>
+      <BackendStatus />
     </div>
   );
 }
